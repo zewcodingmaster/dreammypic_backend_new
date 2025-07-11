@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  email       String?
+  phoneNumber String?
+
+  currentAccountBalance          Int?                             @default(9)
+  // passwordHash  String
+  otplessUserId                  String?                          @unique
+  UserImageGenerationRequestLogs UserImageGenerationRequestLogs[]
+  UserPaymendLogs                UserPaymendLogs[]
+}
+
+enum GenerationStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
+model UserPaymendLogs {
+  id Int @id @default(autoincrement())
+
+  amount Int
+
+  paymentId String? @unique
+  orderId   String  @unique
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  createdAt DateTime
+}
+
+model UserImageGenerationRequestLogs {
+  id                Int              @id @default(autoincrement())
+  userOtplessUserId String?
+  imageUrl          String?
+  generationStatus  GenerationStatus
+  runpodRequestId   String           @unique
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  requestedAt DateTime @default(now())
+}
+
+model email_otp {
+  id    Int    @id @default(autoincrement())
+  email String @unique
+  otp   String
+
+  created_at DateTime @default(now())
+}
