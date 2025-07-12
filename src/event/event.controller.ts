@@ -22,7 +22,7 @@ export class WebhookController {
   constructor(
     @Inject("S3") private readonly s3: S3, // delete this after words
     private readonly prisma: PrismaService,
-  ) {}
+  ) { }
 
   private runpodPayloadSubject = new Subject<{
     userId: string | null;
@@ -51,7 +51,7 @@ export class WebhookController {
         Body: buffer,
       });
 
-      const imageUrl = `https://dreammypic.s3.ap-south-1.amazonaws.com/${randomId}.png`;
+      const imageUrl = `https://readmylove-development.s3.ap-south-1.amazonaws.com/${randomId}.png`;
 
       const userInfo = await this.prisma.userImageGenerationRequestLogs.update({
         where: {
@@ -82,6 +82,23 @@ export class WebhookController {
     } catch (error) {
       handleException(error);
     }
+  }
+
+  @Public()
+  @Post("test/webhook")
+  handleHook(@Body() payload: { text: string }) {
+
+    if (payload.text) {
+      return {
+        message: "Webhook received successfully",
+        data: payload.text,
+      }
+    } else {
+      return {
+        message: "No text provided in the webhook payload",
+      }
+    }
+
   }
   // @Public()
   // @Post("webhook")

@@ -7,8 +7,8 @@ export const S3Provider: Provider = {
     return new S3({
       region: "ap-south-1",
       credentials: {
-        accessKeyId: "AKIAQLSIVL42YEA4RJQ2",
-        secretAccessKey: "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",
+        accessKeyId: "AKIA5FW535OQPFCR4R6U",
+        secretAccessKey: "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",
       },
     });
   },
