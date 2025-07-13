@@ -86,12 +86,12 @@ export class WebhookController {
 
   @Public()
   @Post("test/webhook")
-  handleHook(@Body() payload: { text: string }) {
+  handleHook(@Body() payload: any) {
 
-    if (payload.text) {
+    if (payload?.text) {
       return {
         message: "Webhook received successfully",
-        data: payload.text,
+        data: payload?.text,
       }
     } else {
       return {
