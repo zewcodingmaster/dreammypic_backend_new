@@ -11,7 +11,7 @@ async function bootstrap() {
 
   app.enableCors();
 
-  app.setGlobalPrefix("api");
+  if (constants.isDevelopment) app.setGlobalPrefix("api");
 
   app.useBodyParser("json", { limit: "10mb" });
 
