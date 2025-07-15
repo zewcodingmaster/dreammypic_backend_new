@@ -40,6 +40,7 @@ export class WebhookController {
   async handleWebhookRunpod(@Body() payload: RunpodResponseType) {
     try {
       if (constants.isDevelopment) console.log("runpod item received");
+      console.log("runpod item received");
 
       const buffer = Buffer.from(payload.output.output, "base64");
 
