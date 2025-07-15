@@ -8,7 +8,7 @@ const ENVs = {
   clientSecret: "clientSecret",
   // development_webhook: "development_webhook",
   // production_webhook: "production_webhook",
-  runpod_api_run: "runpod_api_run",
+  runpod_api: "runpod_api",
   runpod_secret_key: "runpod_secret_key",
   Environment: "Environment",
   PORT: "PORT",
@@ -38,6 +38,23 @@ const razorpay = new Razorpay({
   key_secret: getEnv("razorpay_key_secret"),
 });
 
+const runpodKeyWords = {
+  run: "run",
+  status: "status"
+} as const
+
+const getRunpodApi = (runpodKeys: keyof typeof runpodKeyWords) => {
+  switch (runpodKeys) {
+    case runpodKeyWords.run:
+      return getEnv("runpod_api") + runpodKeyWords.run;
+    case runpodKeyWords.status:
+      return getEnv("runpod_api") + runpodKeyWords.status;
+    default:
+      throw new Error("Invalid Runpod API key");
+  }
+}
+
+
 export const constants = {
   isDevelopment,
   isProduction,
@@ -45,7 +62,10 @@ export const constants = {
   clientSecret: getEnv("clientSecret"),
   // development_webhook: getEnv("development_webhook"),
   // production_webhook: getEnv("production_webhook"),
-  runpod_api_run: getEnv("runpod_api_run"),
+  // runpod_api_run="https://api.runpod.ai/v2/sfcnwuz57vrx1h/run"
+
+  runpod_api_run: getRunpodApi("run"),
+  runpod_api_status: getRunpodApi("status"),
   runpod_secret_key: getEnv("runpod_secret_key"),
   port: parseInt(getEnv("PORT")),
   ok_response: "OK",

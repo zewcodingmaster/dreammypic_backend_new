@@ -39,14 +39,14 @@ export class WebhookController {
   @HttpCode(200)
   async handleWebhookRunpod(@Body() payload: RunpodResponseType) {
     try {
-      // console.log("runpod item received");
+      if (constants.isDevelopment) console.log("runpod item received");
 
       const buffer = Buffer.from(payload.output.output, "base64");
 
       const randomId = randomUUID();
 
       const data = await this.s3.putObject({
-        Bucket: "dreammypic",
+        Bucket: "readmylove-development",
         Key: `${randomId}.png`,
         Body: buffer,
       });
