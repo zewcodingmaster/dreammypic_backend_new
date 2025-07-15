@@ -16,7 +16,7 @@ async function bootstrap() {
   app.useBodyParser("json", { limit: "10mb" });
 
   await app.listen(PORT, () =>
-    console.log(`${constants.enviornment} Server listening on port ${PORT}`),
+    console.log(`${constants.enviornment} v=1 Server listening on port ${PORT}`),
   );
 }
 bootstrap();
