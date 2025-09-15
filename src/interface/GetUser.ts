@@ -1,5 +1,5 @@
 export interface GetUserInfoFromRequest {
-  id: number;
+  id: string;
   email: string | null;
   phoneNumber: string | null;
   currentAccountBalance: number | null;

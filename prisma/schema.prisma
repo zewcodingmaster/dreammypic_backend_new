@@ -10,12 +10,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   email       String?
   phoneNumber String?
 
@@ -33,34 +33,34 @@ enum GenerationStatus {
 }
 
 model UserPaymendLogs {
-  id Int @id @default(autoincrement())
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
 
   amount Int
 
   paymentId String? @unique
   orderId   String  @unique
 
-  userId Int
+  userId String @db.ObjectId
   user   User @relation(fields: [userId], references: [id])
 
   createdAt DateTime
 }
 
 model UserImageGenerationRequestLogs {
-  id                Int              @id @default(autoincrement())
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   userOtplessUserId String?
   imageUrl          String?
   generationStatus  GenerationStatus
   runpodRequestId   String           @unique
 
-  userId Int
+  userId String @db.ObjectId
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   requestedAt DateTime @default(now())
 }
 
 model email_otp {
-  id    Int    @id @default(autoincrement())
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   email String @unique
   otp   String
 
